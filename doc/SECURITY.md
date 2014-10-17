@@ -16,9 +16,9 @@ Vulnerability Reporting
 -----------------------
 
 For security inquiries or vulnerability reports, please email
-[security@thoughtbot.com](security@thoughtbot.com) and use our [PGP key].
+[security@thoughtbot.com](security@thoughtbot.com) ([PGP key]).
 
-[PGP key]: http://thoughtbot.com/thoughtbot.asc
+[PGP key]: http://pgp.thoughtbot.com
 
 thoughtbot
 ----------
@@ -46,8 +46,8 @@ We store a GitHub token in your web browser's session cookie.
 We do not store this GitHub token in our PostgreSQL database.
 
 We need this cookie in order to "sync" your GitHub repositories with Hound,
-which we do once immediately after you authenticate your GitHub account.
-You can manually "sync" your GitHub repositories with Hound at any time.
+which we do once, immediately after you authenticate your GitHub account.
+Later, you can manually "sync" your GitHub repositories with Hound at any time.
 
 To browse the portions of the codebase related to authentication,
 try `grep`ing for the following terms:
@@ -60,17 +60,11 @@ grep -R github_token app
 What happens when Hound "syncs" your GitHub repositories
 --------------------------------------------------------
 
-We pass your GitHub token to our [Redis] database
-The database is hosted by [Redis to Go],
-which is owned by [Rackspace].
+We pass your GitHub token to our [Ruby on Rails] app
+(the app whose source code you are reading right now),
+which runs on [Heroku].
 
-[Redis]: http://redis.io/
-[Redis to Go]: http://redistogo.com
-[Rackspace]: http://www.rackspace.com/
-
-This allows you to "enable" Hound on GitHub repos of
-
-Hound runs on [Heroku], a "Platform as a Service",
+Heroku is a "Platform as a Service",
 which runs on Amazon Web Services' "Infrastructure as a Service."
 Read [Heroku's Security Policy][aws] for information about their
 security assessments, compliance, penetration testing,
@@ -79,10 +73,30 @@ environmental safeguards, network security, and more.
 [Heroku]: https://www.heroku.com
 [aws]: https://www.heroku.com/policy/security
 
-Data security
--------------
+Our Ruby process passes your GitHub token from memory to our [Redis] database
+The database is hosted by [Redis to Go],
+which is owned by [Rackspace].
 
-https://www.heroku.com/policy/security
-https://codeclimate.com/security
-https://help.github.com/articles/github-security/
-https://app.intercom.io/a/apps/q88cgtdz/inbox/conversation/553300536
+[Redis]: http://redis.io/
+[Redis to Go]: http://redistogo.com
+[Rackspace]: http://www.rackspace.com/
+
+This allows you to later "enable" Hound on GitHub repos.
+
+What happens when you "enable" Hound on your GitHub repository
+--------------------------------------------------------------
+
+When you click the "toggle" switch in the Hound web interface
+for one of your private GitHub repositories,
+we send your GitHub token from the web browser's session
+to the Ruby process on Heroku
+through the [`SubscriptionsController`].
+
+[`SubscriptionsController`]: ../app/controllers/subscriptions_controller.rb
+
+We use your GitHub token to add the [@houndci] GitHub user to your repository
+via the [`/repos/:owner/:repo/collaborators/:username`][api1] API endpoint.
+Your GitHub user will need admin privileges for that repository.
+
+[@houndci]: https://github.com/houndci
+[api1]: https://developer.github.com/v3/repos/collaborators/#add-collaborator
