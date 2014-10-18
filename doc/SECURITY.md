@@ -169,3 +169,10 @@ What you can do to make your Hound experience safer
 
 http://12factor.net/
 http://12factor.net/config
+
+Third-party auditing
+--------------------
+
+We can't afford it, but the codebase is open-source. Believe in transparency.
+Audits only look at codebase at a given point in time (snapshot). Code would be
+"out of compliance" within a day or two given how frequently we push to repo.
