@@ -148,3 +148,24 @@ grep -R card_token app
 grep -R stripe_customer app
 ```
 
+What happens when we receive a GitHub build notification
+--------------------------------------------------------
+
+TODO
+
+Employee access
+---------------
+
+TODO
+
+What you can do to make your Hound experience safer
+---------------------------------------------------
+
+[GitHub two-factor authentication][two-factor]
+
+[two-factor]: https://help.github.com/articles/about-two-factor-authentication/
+
+12-factor, environment variables
+
+http://12factor.net/
+http://12factor.net/config
