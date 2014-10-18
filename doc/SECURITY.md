@@ -64,13 +64,15 @@ We pass your GitHub token to our [Ruby on Rails] app
 (the app whose source code you are reading right now),
 which runs on [Heroku].
 
+[Ruby on Rails]: http://rubyonrails.org
+[Heroku]: https://www.heroku.com
+
 Heroku is a "Platform as a Service",
 which runs on Amazon Web Services' "Infrastructure as a Service."
-Read [Heroku's Security Policy][aws] for information about their
+Read [Heroku's security policy][aws] for information about their
 security assessments, compliance, penetration testing,
 environmental safeguards, network security, and more.
 
-[Heroku]: https://www.heroku.com
 [aws]: https://www.heroku.com/policy/security
 
 Our Ruby process passes your GitHub token from memory to our [Redis] database
@@ -94,9 +96,55 @@ through the [`SubscriptionsController`].
 
 [`SubscriptionsController`]: ../app/controllers/subscriptions_controller.rb
 
-We use your GitHub token to add the [@houndci] GitHub user to your repository
-via the [`/repos/:owner/:repo/collaborators/:username`][api1] API endpoint.
+We use your GitHub token to add the @houndci GitHub user to your repository
+via the [GitHub collaborator API][api1].
 Your GitHub user will need admin privileges for that repository.
 
 [@houndci]: https://github.com/houndci
 [api1]: https://developer.github.com/v3/repos/collaborators/#add-collaborator
+
+We create a webhook on your repository via the [GitHub webhook API][api2].
+This allows us to later receive your commits and pull requests.
+
+[api2]: https://developer.github.com/v3/repos/hooks/#create-a-hook
+
+To browse the portions of the codebase related to enabling repos,
+try `grep`ing for the following terms:
+
+```bash
+grep -R add_hound_to_repo app
+grep -R create_webhook app
+```
+
+
+What happens when you pay for Hound
+-----------------------------------
+
+The first time you enable a private GitHub repo with Hound,
+we use [Stripe Checkout] to collect and send your credit card information
+to [Stripe], a payment processor.
+
+Your credit card data is sent directly from your web browser to Stripe
+over an SSL connection.
+It is never sent through Hound's Ruby processes
+and we never store your credit card information.
+
+[Stripe Checkout]: https://stripe.com/checkout
+[Stripe]: https://stripe.com
+
+We receive a token from Stripe that represents a unique reference to your
+credit card within the context of Hound's application.
+
+Read [Stripe's security policy] for information about PCI compliance,
+SSL, encryption, and more.
+
+[Stripe's security policy]: https://stripe.com/help/security
+
+To browse the portions of the codebase related to payment,
+try `grep`ing for the following terms:
+
+```bash
+grep -R card_token app
+grep -R stripe_customer app
+```
+
