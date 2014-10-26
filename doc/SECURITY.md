@@ -76,15 +76,7 @@ environmental safeguards, network security, and more.
 
 [aws]: https://www.heroku.com/policy/security
 
-Our Ruby process passes your GitHub token from memory to our [Redis] database
-The database is hosted by [Redis to Go],
-which is owned by [Rackspace].
-
-[Redis]: http://redis.io/
-[Redis to Go]: http://redistogo.com
-[Rackspace]: http://www.rackspace.com/
-
-This allows you to later "enable" Hound on GitHub repos.
+Refreshing your GitHub repos allows you to later "enable" Hound on those repos.
 
 What happens when you "enable" Hound on your GitHub repository
 --------------------------------------------------------------
@@ -97,14 +89,26 @@ through the [`SubscriptionsController`].
 
 [`SubscriptionsController`]: ../app/controllers/subscriptions_controller.rb
 
-We use your GitHub token to add the @houndci GitHub user to your repository
+Our Ruby process passes your GitHub token from memory in
+[`RepoSynchronizationJob`] to our [Redis] database.
+The database is hosted by [Redis to Go],
+which is owned by [Rackspace].
+
+[`RepoSynchronizationJob`]: ../app/jobs/repo_synchronization_job.rb
+[Redis]: http://redis.io/
+[Redis to Go]: http://redistogo.com
+[Rackspace]: http://www.rackspace.com/
+
+This is the only time we temporarily store your GitHub token.
+
+We use your GitHub token to add the [@houndci] GitHub user to your repository
 via the [GitHub collaborator API][api1].
 Your GitHub user will need admin privileges for that repository.
 
 [@houndci]: https://github.com/houndci
 [api1]: https://developer.github.com/v3/repos/collaborators/#add-collaborator
 
-We create a webhook on your repository via the [GitHub webhook API][api2].
+We also create a webhook on your repository via the [GitHub webhook API][api2].
 This allows us to later receive your commits and pull requests.
 
 [api2]: https://developer.github.com/v3/repos/hooks/#create-a-hook
@@ -116,7 +120,6 @@ try `grep`ing for the following terms:
 grep -R add_hound_to_repo app
 grep -R create_webhook app
 ```
-
 
 What happens when you pay for Hound
 -----------------------------------
