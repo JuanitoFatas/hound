@@ -16,7 +16,8 @@ Vulnerability Reporting
 -----------------------
 
 For security inquiries or vulnerability reports, please email
-[security@thoughtbot.com](security@thoughtbot.com) ([PGP key]).
+[security@thoughtbot.com](security@thoughtbot.com).
+If you'd like, you can use our [PGP key] when reporting vulnerabilities.
 
 [PGP key]: http://pgp.thoughtbot.com
 
