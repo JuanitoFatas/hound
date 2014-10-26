@@ -45,9 +45,9 @@ and that you can revoke our access at any time.
 We store a GitHub token in your web browser's session cookie.
 We do not store this GitHub token in our PostgreSQL database.
 
-We need this cookie in order to "sync" your GitHub repositories with Hound,
+We need this cookie in order to refresh your GitHub repositories with Hound,
 which we do once, immediately after you authenticate your GitHub account.
-Later, you can manually "sync" your GitHub repositories with Hound at any time.
+Later, you can manually refresh your GitHub repositories with Hound at any time.
 
 To browse the portions of the codebase related to authentication,
 try `grep`ing for the following terms:
@@ -57,8 +57,8 @@ grep -R omniauth app
 grep -R github_token app
 ```
 
-What happens when Hound "syncs" your GitHub repositories
---------------------------------------------------------
+What happens when Hound refreshes your GitHub repositories
+----------------------------------------------------------
 
 We pass your GitHub token to our [Ruby on Rails] app
 (the app whose source code you are reading right now),
