@@ -125,7 +125,7 @@ we use [Stripe Checkout] to collect and send your credit card information
 to [Stripe], a payment processor.
 
 Your credit card data is sent directly from your web browser to Stripe
-over an SSL connection.
+over a TLS connection.
 It is never sent through Hound's Ruby processes
 and we never store your credit card information.
 
@@ -136,7 +136,7 @@ We receive a token from Stripe that represents a unique reference to your
 credit card within the context of Hound's application.
 
 Read [Stripe's security policy] for information about PCI compliance,
-SSL, encryption, and more.
+TLS, encryption, and more.
 
 [Stripe's security policy]: https://stripe.com/help/security
 
