@@ -135,8 +135,8 @@ describe RepoActivator do
       end
     end
 
-    context 'when the repo has valid attributes' do
-      it 'returns true when the private attribute is not nil' do
+    context "when the repo has valid attributes" do
+      it "returns true when the private attribute is not nil" do
         repo = create(:repo, private: false, in_organization: false)
         stub_github_api
         allow(JobQueue).to receive(:push).and_return(true)
