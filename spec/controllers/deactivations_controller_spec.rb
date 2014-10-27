@@ -34,8 +34,8 @@ describe DeactivationsController, "#create" do
 
       expect(response.code).to eq "502"
       expect(activator).to have_received(:deactivate)
-      expect(RepoActivator).to have_received(:new)
-        .with(repo: repo, github_token: AuthenticationHelper::GITHUB_TOKEN)
+      expect(RepoActivator).to have_received(:new).
+        with(repo: repo, github_token: AuthenticationHelper::GITHUB_TOKEN)
     end
 
     it "notifies Sentry" do

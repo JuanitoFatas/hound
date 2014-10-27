@@ -4,7 +4,7 @@ describe RepoActivator do
   describe '#activate' do
     context 'when repo activation succeeds' do
       it 'activates repo' do
-        token = 'githubtoken'
+        token = "githubtoken"
         repo = create(:repo)
         stub_github_api
         allow(JobQueue).to receive(:push).and_return(true)
@@ -19,7 +19,7 @@ describe RepoActivator do
       it 'makes Hound a collaborator' do
         repo = create(:repo)
         github = stub_github_api
-        token = 'githubtoken'
+        token = "githubtoken"
         allow(JobQueue).to receive(:push)
 
         RepoActivator.new(github_token: token, repo: repo).activate
@@ -30,7 +30,7 @@ describe RepoActivator do
       it 'returns true if the repo activates successfully' do
         repo = create(:repo)
         stub_github_api
-        token = 'githubtoken'
+        token = "githubtoken"
         allow(JobQueue).to receive(:push).and_return(true)
 
         result = RepoActivator.new(github_token: token, repo: repo).activate
@@ -42,7 +42,7 @@ describe RepoActivator do
         it 'creates GitHub hook using secure build URL' do
           with_https_enabled do
             repo = create(:repo)
-            token = 'githubtoken'
+            token = "githubtoken"
             github = stub_github_api
             allow(JobQueue).to receive(:push)
 
@@ -60,7 +60,7 @@ describe RepoActivator do
         it 'creates GitHub hook using insecure build URL' do
           repo = create(:repo)
           github = stub_github_api
-          token = 'githubtoken'
+          token = "githubtoken"
           allow(JobQueue).to receive(:push)
 
           RepoActivator.new(github_token: token, repo: repo).activate
@@ -86,19 +86,19 @@ describe RepoActivator do
       end
 
       it 'only swallows Octokit errors' do
-        token = 'githubtoken'
+        token = "githubtoken"
         repo = build_stubbed(:repo)
         allow(JobQueue).to receive(:push)
         expect(GithubApi).to receive(:new).and_raise(Exception.new)
 
-        expect {
+        expect do
           RepoActivator.new(github_token: token, repo: repo).activate
-        }.to raise_error(Exception)
+        end.to raise_error(Exception)
       end
 
       context 'when Hound cannot be added to repo' do
         it 'returns false' do
-          token = 'githubtoken'
+          token = "githubtoken"
           repo = build_stubbed(:repo, full_github_name: 'test/repo')
           github = double(:github, add_user_to_repo: false)
           allow(JobQueue).to receive(:push)
@@ -111,11 +111,11 @@ describe RepoActivator do
       end
     end
 
-    context 'when the repo has invalid attributes' do
-      it 'returns false when the private attribute is nil' do
+    context "when the repo has invalid attributes" do
+      it "returns false when the private attribute is nil" do
         repo = build_stubbed(:repo, private: nil)
         stub_github_api
-        token = 'githubtoken'
+        token = "githubtoken"
         allow(JobQueue).to receive(:push)
 
         result = RepoActivator.new(github_token: token, repo: repo).activate
@@ -123,11 +123,11 @@ describe RepoActivator do
         expect(result).to be_falsy
       end
 
-      it 'returns false when the private attribute is nil' do
+      it "returns false when the private attribute is nil" do
         repo = build_stubbed(:repo, in_organization: nil)
         stub_github_api
         allow(JobQueue).to receive(:push)
-        token = 'githubtoken'
+        token = "githubtoken"
 
         result = RepoActivator.new(github_token: token, repo: repo).activate
 
@@ -140,7 +140,7 @@ describe RepoActivator do
         repo = create(:repo, private: false, in_organization: false)
         stub_github_api
         allow(JobQueue).to receive(:push).and_return(true)
-        token = 'githubtoken'
+        token = "githubtoken"
 
         result = RepoActivator.new(github_token: token, repo: repo).activate
 
@@ -156,9 +156,9 @@ describe RepoActivator do
         github = double(:github, create_hook: nil, add_user_to_repo: true)
         allow(GithubApi).to receive(:new).and_return(github)
 
-        expect {
+        expect do
           RepoActivator.new(github_token: token, repo: repo).activate
-        }.not_to raise_error
+        end.not_to raise_error
 
         expect(GithubApi).to have_received(:new).with(token)
       end
@@ -169,7 +169,7 @@ describe RepoActivator do
     context 'when repo activation succeeds' do
       it 'deactivates repo' do
         stub_github_api
-        token = 'githubtoken'
+        token = "githubtoken"
         repo = create(:repo)
         allow(JobQueue).to receive(:push)
         create(:membership, repo: repo)
@@ -182,7 +182,7 @@ describe RepoActivator do
 
       it 'removes GitHub hook' do
         github_api = stub_github_api
-        token = 'githubtoken'
+        token = "githubtoken"
         allow(JobQueue).to receive(:push)
         repo = create(:repo)
         create(:membership, repo: repo)
@@ -195,7 +195,7 @@ describe RepoActivator do
 
       it 'returns true if the repo activates successfully' do
         stub_github_api
-        token = 'githubtoken'
+        token = "githubtoken"
         allow(JobQueue).to receive(:push)
         membership = create(:membership)
         repo = membership.repo
@@ -224,9 +224,9 @@ describe RepoActivator do
         allow(JobQueue).to receive(:push)
         expect(GithubApi).to receive(:new).and_raise(Exception.new)
 
-        expect {
+        expect do
           RepoActivator.new(github_token: token, repo: repo).deactivate
-        }.to raise_error(Exception)
+        end.to raise_error(Exception)
       end
     end
   end

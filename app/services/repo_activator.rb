@@ -42,7 +42,7 @@ class RepoActivator
 
   def add_hound_to_repo
     github.add_user_to_repo(
-      ENV.fetch('HOUND_GITHUB_USERNAME'),
+      ENV.fetch("HOUND_GITHUB_USERNAME"),
       repo.full_github_name
     )
   end
@@ -68,14 +68,14 @@ class RepoActivator
   end
 
   def builds_url
-    URI.join("#{protocol}://#{ENV['HOST']}", 'builds').to_s
+    URI.join("#{protocol}://#{ENV["HOST"]}", "builds").to_s
   end
 
   def protocol
-    if ENV.fetch('ENABLE_HTTPS') == 'yes'
-      'https'
+    if ENV.fetch("ENABLE_HTTPS") == "yes"
+      "https"
     else
-      'http'
+      "http"
     end
   end
 end
